@@ -3,7 +3,7 @@ cmake-learn-note,本repo参考了B站多个视频教程,在此感谢
 * [IPADS新人培训第二讲：CMake](https://www.bilibili.com/video/BV14h41187FZ/?spm_id_from=333.337.search-card.all.click&vd_source=bbc0bd6d50c9a37a05c8cb4791842c0f) 及其 [github repo](https://github.com/stdrc/modern-cmake-by-example)
 * [CMake教程系列](https://space.bilibili.com/218427631/lists?sid=1849137&spm_id_from=333.788.0.0)
 
-# Lesson 1
+# Lesson 0
 
 假设我有一个形如如下的目录结构，我希望在`main.cpp`中使用`add` 路径下的`add.cpp` 中的函数和包含`add.h` 
 
@@ -44,7 +44,7 @@ add_executable(main main.cpp add/add.cpp) # 指定可执行文件所需要的.cp
 
 那么其实最外围的CMakeLists.txt就是主CMakeLists.txt，可以通过`add_subdirectory(src)` 来让主CMakeLists.txt切换到`src`下的CMakeLists.txt
 
-# Lesson 2
+# Lesson 1
 
 形如如下目录结构，当我们需要将`add` 目录封装成一个库时可以采用两种方式，分别是静态库和动态库
 
@@ -106,7 +106,7 @@ add_executable(main main.cpp)
 target_link_libraries(main /root/cmake-learn/lib/libadd_shared.so)
 ```
 
-# Lesson 3
+# Lesson 2
 
 ![avatar](./lesson_1/dependencies.png)
 
