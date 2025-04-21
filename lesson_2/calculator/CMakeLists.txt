@@ -1,2 +1,3 @@
-add_library(add STATIC add.cpp)
-target_include_directories(add PUBLIC ../common)
+add_library(calculator STATIC calculator.cpp) # 定义一个calculator静态库
+target_include_directories(calculator PRIVATE ../add ../sub) # 添加头文件搜索路径
+target_link_libraries(calculator PRIVATE add sub) # 添加链接库
