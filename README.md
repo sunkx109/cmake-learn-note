@@ -108,7 +108,7 @@ target_link_libraries(main /root/cmake-learn/lib/libadd_shared.so)
 
 # Lesson 2
 
-![avatar](./lesson_1/dependencies.png)
+![avatar](./lesson_2/dependencies.png)
 
 ```python
 |-- CMakeLists.txt
