@@ -145,3 +145,31 @@ target_link_libraries(main /root/cmake-learn/lib/libadd_shared.so)
 /*common路径下CMakeLists.txt*/
 add_library(common STATIC common.cpp)
 ```
+
+- **add or sub**
+
+到`add` 或者 `sub` ，就需要依赖`common`的实现；同样的，我们可以在`add`路径下，依赖`common`的静态库和包含其头文件
+
+```python
+add_library(add add.cpp)
+target_include_directories(add PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../common)
+target_link_libraries(add PRIVATE common)
+```
+
+这里解释一下，与Lesson2 中直接使用静态库`.a`文件不同， 这里`target_link_libraries` 可以直接链接到其他的静态库，而不需要写绝对路径。
+
+> 另外，这里如果只是编译add这个静态库，那么他应该是没有办法链接到common这个静态库的，但是如果是更上层的可执行文件，那么他就会把所依赖的所有静态库一起链接
+> 
+- **calculator**
+
+到`calculator` 部分，他会封装好`add` 和 `sub`两个方法，也只依赖这两个文件，所以它的CMakeLists如下, 既要包含add 和 sub的头文件，也要链接add 和 sub 两个静态库
+
+```python
+add_library(calculator STATIC calculator.cpp) # 定义一个calculator静态库
+target_include_directories(calculator PRIVATE ../add ../sub) # 添加头文件搜索路径
+target_link_libraries(calculator PRIVATE add sub) # 添加链接库
+```
+
+- **main**
+
+到最后的`main.cpp` 是用来编译可执行文件的，所以最外层的CMakeLists要统领全局

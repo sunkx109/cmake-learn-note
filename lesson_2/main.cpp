@@ -3,6 +3,6 @@
 int main()
 {
     Calculator cal;
-    cal.add(5, 3);
+    cal.caladd(5, 3);
     return 0;
 }

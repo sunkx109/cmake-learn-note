@@ -2,6 +2,6 @@
 class Calculator {
 
     public:
-        int add(int a, int b);
-        int sub(int a, int b);
+        int caladd(int a, int b);
+        int calsub(int a, int b);
 };
