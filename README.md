@@ -173,3 +173,11 @@ target_link_libraries(calculator PRIVATE add sub) # 添加链接库
 - **main**
 
 到最后的`main.cpp` 是用来编译可执行文件的，所以最外层的CMakeLists要统领全局
+
+## 更简洁的方式
+
+我们在其中一级对另一级的依赖时，可以发现，高层的那一级既要include头文件也要链接底层那一级的library，那是否存在一种更简洁的方法来处理这些依赖；
+
+就直接在每一级创建`library`的时候就直接去把头文件include到`library`中，举个例子，
+
+对于`common`来说，依赖它的是add 和 sub，之前的写法是在add 和 sub CMakeLists通过`target_include_directories` ,这个操作也可以放在common这一级
