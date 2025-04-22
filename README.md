@@ -190,3 +190,95 @@ target_include_directories(common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 # PRIVATE 表示只给自己用
 # INTERFACE 表示只给依赖自己的一级用
 ```
+
+# Lesson 3 Test
+
+## GoogleTest
+
+官方推荐了一种方式：https://google.github.io/googletest/quickstart-cmake.html
+
+这里采用submodule 的方式，首先可以通过如下命令addsubmodule googletest这个开源测试repo
+
+```python
+git git submodule add https://github.com/google/googletest.git third_party/googletest
+git submodule update --init --recursive
+```
+
+那么整体目录结构如下所示：
+
+```python
+.
+|-- CMakeLists.txt
+|-- add
+|   |-- CMakeLists.txt
+|   |-- add.cpp
+|   `-- add.h
+|-- build.sh
+|-- calculator
+|   |-- CMakeLists.txt
+|   |-- calculator.cpp
+|   `-- calculator.h
+|-- common
+|   |-- CMakeLists.txt
+|   |-- common.cpp
+|   `-- common.h
+|-- dependencies.png
+|-- main.cpp
+|-- sub
+|   |-- CMakeLists.txt
+|   |-- sub.cpp
+|   `-- sub.h
+|-- test
+|   |-- CMakeLists.txt
+|   `-- test_calculator.cpp
+`-- third_party
+    `-- googletest
+```
+
+1. 首先需要修改根目录下的CMakeLists.txt
+
+```python
+cmake_minimum_required(VERSION 3.16)
+project(LESSON_3)
+
+add_subdirectory(common)
+add_subdirectory(add)
+add_subdirectory(sub)
+add_subdirectory(calculator)
+
+add_executable(main main.cpp)
+target_link_libraries(main PRIVATE calculator)
+
+option(ENABLE_TESTS "Enable tests" ON)
+if(ENABLE_TESTS)
+   add_subdirectory(${CMAKE_SOURCE_DIR}/third_party/googletest)
+   add_subdirectory(test)
+endif()
+```
+
+1. 需要修改test的CMakeList.txt
+
+```python
+enable_testing()
+
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/../third_party/googletest/googletest/include
+)
+
+add_executable(
+  test_calculator
+  test_calculator.cpp
+)
+
+target_link_libraries(
+    test_calculator
+    calculator
+)
+
+target_link_libraries(
+  test_calculator
+  GTest::gtest_main
+)
+```
+
+这里其实我本来是觉得可以在`test`的`CMakeList.txt`中来`add_subdirectory(googletest)`，但是实际会报错，说没有指定二进制目录，然后豆包给的修改建议是把`add_subdirectory(googletest)` 放到根目录下的`CMakeList.txt` 中
